@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HTML &amp; CSS Cheat Sheet</title>
+<style>
+  :root {
+    --bg: #f7f7f5; --fg: #1c1c1c; --sub: #6b6b6b; --card: #ffffff;
+    --border: #e2e0da; --accent: #b5502e; --mono-bg: #f0efe9; --header-bg: #1c1c1c; --header-fg: #f7f7f5;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #16161a; --fg: #ececec; --sub: #9a9a9a; --card: #1f1f24;
+      --border: #33333a; --accent: #e08a5f; --mono-bg: #26262c; --header-bg: #0d0d0f; --header-fg: #f0f0f0;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #16161a; --fg: #ececec; --sub: #9a9a9a; --card: #1f1f24;
+    --border: #33333a; --accent: #e08a5f; --mono-bg: #26262c; --header-bg: #0d0d0f; --header-fg: #f0f0f0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.4;
+  }
+  header {
+    background: var(--header-bg); color: var(--header-fg);
+    padding: 2rem 1rem 1.5rem; text-align: center;
+    padding-top: calc(2rem + env(safe-area-inset-top, 0px));
+  }
+  header h1 {
+    margin: 0; font-size: 2rem; letter-spacing: 0.08em; font-weight: 800;
+  }
+  header p {
+    max-width: 720px; margin: 0.75rem auto 0; color: #cfcfcf; font-size: 0.92rem;
+  }
+  main {
+    max-width: 1200px; margin: 0 auto; padding: 1.5rem 1rem 3rem;
+  }
+  .grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  section.card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 1rem 1.1rem; overflow-x: auto;
+  }
+  section.card h2 {
+    margin: 0; font-size: 0.95rem; letter-spacing: 0.06em; color: var(--accent);
+    font-weight: 800;
+  }
+  section.card .sub {
+    margin: 0.15rem 0 0.75rem; font-style: italic; color: var(--sub); font-size: 0.82rem;
+  }
+  dl { margin: 0; }
+  dt {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    background: var(--mono-bg); border-radius: 5px; padding: 0.15rem 0.4rem;
+    display: inline-block; font-size: 0.83rem; margin-top: 0.55rem;
+  }
+  dt:first-child { margin-top: 0; }
+  dd {
+    margin: 0.15rem 0 0; padding-left: 0.1rem; font-size: 0.86rem; color: var(--fg);
+  }
+  .full-width { grid-column: 1 / -1; }
+  .gotcha {
+    margin-top: 1.5rem; padding: 1rem 1.1rem; border-left: 4px solid var(--accent);
+    background: var(--card); border-radius: 0 8px 8px 0; font-size: 0.88rem;
+  }
+  .gotcha strong { color: var(--accent); }
+  pre {
+    background: var(--mono-bg); padding: 0.6rem; border-radius: 6px; overflow-x: auto;
+    font-size: 0.8rem; margin: 0.5rem 0 0;
+  }
+  footer {
+    text-align: center; color: var(--sub); font-size: 0.78rem; padding: 1.5rem 1rem 2rem;
+    padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>HTML &amp; CSS</h1>
+  <p>HTML structures content, CSS styles it — together they're the baseline of every web page. This sheet covers the syntax you look up constantly: tags, selectors, box model, layout systems, and the responsive/variable tricks that come up once you're past the basics.</p>
+</header>
+<main>
+<div class="grid">
+
+<section class="card">
+<h2>DOCUMENT SETUP</h2>
+<p class="sub">the skeleton every page starts from</p>
+<dl>
+<dt>&lt;!DOCTYPE html&gt;</dt><dd>declare HTML5, must be first line</dd>
+<dt>&lt;html lang="en"&gt;</dt><dd>root element, set page language</dd>
+<dt>&lt;meta charset="UTF-8"&gt;</dt><dd>set character encoding</dd>
+<dt>&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</dt><dd>enable responsive scaling on mobile</dd>
+<dt>&lt;title&gt;...&lt;/title&gt;</dt><dd>set browser tab / bookmark title</dd>
+<dt>&lt;link rel="stylesheet" href="[file].css"&gt;</dt><dd>attach external stylesheet, goes in &lt;head&gt;</dd>
+<dt>&lt;script src="[file].js" defer&gt;&lt;/script&gt;</dt><dd>attach external script, defer runs after parsing</dd>
+<dt>&lt;!-- comment --&gt;</dt><dd>HTML comment, not rendered</dd>
+</dl>
+</section>
+
+<section class="card">
+<h2>TEXT &amp; CONTENT</h2>
+<p class="sub">inline and block elements for content</p>
+<dl>
+<dt>&lt;h1&gt;–&lt;h6&gt;</dt><dd>headings, one &lt;h1&gt; per page ideally</dd>
+<dt>&lt;p&gt;</dt><dd>paragraph block</dd>
+<dt>&lt;a href="[url]"&gt;</dt><dd>hyperlink, add target="_blank" to open new tab</dd>
+<dt>&lt;img src="[file]" alt="[text]"&gt;</dt><dd>image, alt required for accessibility</dd>
+<dt>&lt;ul&gt;/&lt;ol&gt;/&lt;li&gt;</dt><dd>unordered/ordered list and list item</dd>
+<dt>&lt;strong&gt; / &lt;em&gt;</dt><dd>bold with semantic importance / italic with emphasis</dd>
+<dt>&lt;br&gt;</dt><dd>line break, self-closing</dd>
+<dt>&lt;span&gt;</dt><dd>generic inline container for styling/scripting hooks</dd>
+<dt>&lt;div&gt;</dt><dd>generic block container</dd>
+</dl>
+</section>
+
+<section class="card">
+<h2>SEMANTIC LAYOUT</h2>
+<p class="sub">tags that describe page regions, not just divs</p>
+<dl>
+<dt>&lt;header&gt;</dt><dd>introductory content or nav for a page/section</dd>
+<dt>&lt;nav&gt;</dt><dd>navigation links block</dd>
+<dt>&lt;main&gt;</dt><dd>primary content, one per page</dd>
+<dt>&lt;section&gt;</dt><dd>thematic grouping of content</dd>
+<dt>&lt;article&gt;</dt><dd>self-contained, independently distributable content</dd>
+<dt>&lt;aside&gt;</dt><dd>tangential content, sidebars</dd>
+<dt>&lt;footer&gt;</dt><dd>closing content for page/section</dd>
+<dt>&lt;figure&gt;/&lt;figcaption&gt;</dt><dd>media block with caption</dd>
+</dl>
+</section>
+
+<section class="card">
+<h2>SELECTORS</h2>
+<p class="sub">targeting elements in CSS</p>
+<dl>
+<dt>tag { }</dt><dd>select all elements of that tag</dd>
+<dt>.class { }</dt><dd>select by class attribute</dd>
+<dt>#id { }</dt><dd>select by unique id</dd>
+<dt>a, b { }</dt><dd>select both a and b</dd>
+<dt>a b { }</dt><dd>select b that is any descendant of a</dd>
+<dt>a &gt; b { }</dt><dd>select b that is a direct child of a</dd>
+<dt>a + b { }</dt><dd>select b immediately following a (sibling)</dd>
+<dt>a ~ b { }</dt><dd>select all b siblings after a</dd>
+<dt>[attr="val"] { }</dt><dd>select by attribute value</dd>
+<dt>a:hover / :focus / :active</dt><dd>select on interaction state</dd>
+<dt>a:nth-child([n])</dt><dd>select nth child, accepts odd/even/formula</dd>
+<dt>a::before / ::after</dt><dd>insert generated content, needs content: ""</dd>
+</dl>
+</section>
+
+<section class="card">
+<h2>BOX MODEL</h2>
+<p class="sub">sizing and spacing every element</p>
+<dl>
+<dt>box-sizing: border-box;</dt><dd>include padding/border in declared width/height</dd>
+<dt>width / height: [val];</dt><dd>set element dimensions</dd>
+<dt>margin: [val];</dt><dd>space outside the border, shorthand top/right/bottom/left</dd>
+<dt>padding: [val];</dt><dd>space inside the border, same shorthand order</dd>
+<dt>border: [width] [style] [color];</dt><dd>draw a border around the element</dd>
+<dt>border-radius: [val];</dt><dd>round the corners</dd>
+<dt>display: block / inline / inline-block / none;</dt><dd>set the box's rendering flow</dd>
+<dt>overflow: hidden / scroll / auto;</dt><dd>control content that exceeds the box</dd>
+<dt>box-shadow: [x] [y] [blur] [color];</dt><dd>drop shadow around the box</dd>
+</dl>
+</section>
+
+<section class="card">
+<h2>TYPOGRAPHY &amp; COLOR</h2>
+<p class="sub">text appearance and fills</p>
+<dl>
+<dt>font-family: [name], sans-serif;</dt><dd>set typeface, always include a fallback</dd>
+<dt>font-size: [val];</dt><dd>set text size, prefer rem for scalability</dd>
+<dt>font-weight: 400 / 700 / bold;</dt><dd>set text boldness</dd>
+<dt>line-height: [val];</dt><dd>set spacing between lines</dd>
+<dt>text-align: left / center / right;</dt><dd>horizontal text alignment</dd>
+<dt>color: [val];</dt><dd>set text color</dd>
+<dt>background-color: [val];</dt><dd>set element fill color</dd>
+<dt>letter-spacing: [val];</dt><dd>adjust space between characters</dd>
+<dt>text-decoration: none / underline;</dt><dd>toggle underline/strikethrough</dd>
+</dl>
+</section>
+
+<section class="card">
+<h2>FLEXBOX</h2>
+<p class="sub">one-dimensional layout, row or column</p>
+<dl>
+<dt>display: flex;</dt><dd>turn container into a flex container</dd>
+<dt>flex-direction: row / column;</dt><dd>set main axis direction</dd>
+<dt>justify-content: center / space-between / space-around;</dt><dd>align items along main axis</dd>
+<dt>align-items: center / flex-start / stretch;</dt><dd>align items along cross axis</dd>
+<dt>flex-wrap: wrap;</dt><dd>allow items to wrap to new lines</dd>
+<dt>gap: [val];</dt><dd>set spacing between flex/grid items</dd>
+<dt>flex: [grow] [shrink] [basis];</dt><dd>set how a child grows/shrinks within remaining space</dd>
+<dt>align-self: [val];</dt><dd>override align-items for one child</dd>
+</dl>
+</section>
+
+<section class="card">
+<h2>GRID</h2>
+<p class="sub">two-dimensional layout, rows and columns</p>
+<dl>
+<dt>display: grid;</dt><dd>turn container into a grid container</dd>
+<dt>grid-template-columns: [val] [val];</dt><dd>define column sizes, e.g. 1fr 2fr or repeat(3, 1fr)</dd>
+<dt>grid-template-rows: [val];</dt><dd>define row sizes</dd>
+<dt>grid-column: [start] / [end];</dt><dd>place item spanning specific columns</dd>
+<dt>grid-row: [start] / [end];</dt><dd>place item spanning specific rows</dd>
+<dt>grid-template-areas: "[name]";</dt><dd>name regions for readable placement</dd>
+<dt>place-items: center;</dt><dd>shorthand for align-items + justify-items</dd>
+<dt>grid-auto-flow: row / column;</dt><dd>set auto-placement direction for unplaced items</dd>
+</dl>
+</section>
+
+<section class="card">
+<h2>POSITIONING</h2>
+<p class="sub">taking elements out of normal flow</p>
+<dl>
+<dt>position: relative;</dt><dd>offset from normal position, keeps space in flow</dd>
+<dt>position: absolute;</dt><dd>positioned relative to nearest positioned ancestor</dd>
+<dt>position: fixed;</dt><dd>positioned relative to the viewport, stays on scroll</dd>
+<dt>position: sticky;</dt><dd>relative until scroll threshold, then fixed</dd>
+<dt>top / right / bottom / left: [val];</dt><dd>set offset for a positioned element</dd>
+<dt>z-index: [num];</dt><dd>set stack order for overlapping elements</dd>
+</dl>
+</section>
+
+<section class="card">
+<h2>RESPONSIVE DESIGN</h2>
+<p class="sub">adapting layout to screen size</p>
+<dl>
+<dt>@media (max-width: [val]) { }</dt><dd>apply rules below a breakpoint</dd>
+<dt>@media (min-width: [val]) { }</dt><dd>apply rules above a breakpoint</dd>
+<dt>@media (prefers-color-scheme: dark) { }</dt><dd>apply rules when user's OS is in dark mode</dd>
+<dt>width: [val]%;</dt><dd>relative sizing to parent</dd>
+<dt>max-width: 100%;</dt><dd>prevent element from overflowing container</dd>
+<dt>vw / vh</dt><dd>units relative to viewport width/height</dd>
+<dt>rem / em</dt><dd>units relative to root font-size / parent font-size</dd>
+<dt>clamp([min], [preferred], [max]);</dt><dd>fluid value bounded by a min and max</dd>
+</dl>
+</section>
+
+<section class="card">
+<h2>FORMS</h2>
+<p class="sub">collecting user input</p>
+<dl>
+<dt>&lt;form action="[url]" method="post"&gt;</dt><dd>wrap inputs, define submission target/method</dd>
+<dt>&lt;input type="text/email/password/checkbox"&gt;</dt><dd>single-line input, type controls behavior</dd>
+<dt>&lt;label for="[id]"&gt;</dt><dd>associate text with an input by matching id</dd>
+<dt>&lt;textarea&gt;</dt><dd>multi-line text input</dd>
+<dt>&lt;select&gt;/&lt;option&gt;</dt><dd>dropdown menu and its choices</dd>
+<dt>&lt;button type="submit"&gt;</dt><dd>submit the form</dd>
+<dt>required / placeholder="[text]"</dt><dd>input attributes for validation/hint text</dd>
+</dl>
+</section>
+
+<section class="card">
+<h2>TRANSITIONS &amp; TRANSFORMS</h2>
+<p class="sub">motion and shape changes</p>
+<dl>
+<dt>transition: [prop] [duration] [easing];</dt><dd>animate a property change smoothly</dd>
+<dt>transform: translate([x],[y]);</dt><dd>move element without affecting layout flow</dd>
+<dt>transform: scale([val]);</dt><dd>resize element visually</dd>
+<dt>transform: rotate([deg]);</dt><dd>rotate element</dd>
+<dt>@keyframes [name] { }</dt><dd>define multi-step animation sequence</dd>
+<dt>animation: [name] [duration] infinite;</dt><dd>apply a keyframe animation to an element</dd>
+</dl>
+</section>
+
+<section class="card full-width">
+<h2>VARIABLES, SPECIFICITY &amp; EDGE CASES</h2>
+<p class="sub">config tricks and gotchas that come up eventually</p>
+<dl>
+<dt>--name: [val]; / var(--name)</dt><dd>define and consume a custom property (CSS variable), inherits like normal properties</dd>
+<dt>!important</dt><dd>override normal cascade, avoid except as a last resort</dd>
+<dt>* { }</dt><dd>universal selector, matches every element — used for resets</dd>
+<dt>:root { }</dt><dd>selects the document root, typical place for global variables</dd>
+<dt>:not([selector])</dt><dd>select elements that don't match the given selector</dd>
+<dt>margin: 0 auto;</dt><dd>horizontally center a block element with a fixed width</dd>
+</dl>
+</section>
+
+</div>
+
+<div class="gotcha">
+  <strong>Specificity gotcha:</strong> inline styles beat IDs beat classes/attributes/pseudo-classes beat tag selectors — a single <code>#id</code> selector will silently out-rank a dozen <code>.class</code> rules. When a style "isn't applying," check specificity before assuming a typo.
+</div>
+
+</main>
+<footer>Reference sheet — HTML5 &amp; CSS3 syntax recall</footer>
+</body>
+</html>
